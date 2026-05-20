@@ -1,11 +1,11 @@
-import express, { type Request, type Response } from "express"
-const app = express()
-const port = 5000;
+import app from "./app.js"
+import config from "./config/index.config.js"
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Server running')
-})
+const main = () => {
+    app.listen(config.port, ()=> {
+        console.log(`server is running on port ${config.port}`);
+        
+    })
+}
 
-app.listen(port, () => {
-  console.log(`server is running on port http://localhost:${port}`)
-})
+main()
