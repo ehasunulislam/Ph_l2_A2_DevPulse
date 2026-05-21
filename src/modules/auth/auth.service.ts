@@ -1,6 +1,10 @@
+import config from "../../config/index.config.js";
 import { pool } from "../../db/index.db.js";
 import type { Interface_of_user } from "../user/user.interface.js";
 import bcrypt from "bcrypt"
+
+import jwt from "jsonwebtoken"
+
 
 // createUser from database 
 const createUserFromDB = async (payload: Interface_of_user) => {
@@ -44,6 +48,30 @@ const loginUserFromDB = async (payload: {
 
     if(!mathchPassword) {
         throw new Error("Password Doesn't match")
+    }
+
+    // 3. added the jwt accesstoken function 
+    const jwtPayload = {
+        id: user.id,
+        name: user.name,
+        is_active: user.is_active,
+        email: user.email
+    }
+
+    const accesstoken = jwt.sign(jwtPayload, config.secretJWT as string, {
+        expiresIn: "1d"
+    });
+
+    return { 
+        accesstoken,
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            created_at: user.created_at,
+            updated_at: user.updated_at,
+        },
     }
 }
 
