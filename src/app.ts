@@ -12,7 +12,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // all routes
-app.use("/api/users", userRoute);
+app.use("/api/auth", userRoute);
+app.use("/api/auth", userRoute)
 
 
 export default app

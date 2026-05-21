@@ -2,6 +2,7 @@ import { pool } from "../../db/index.db.js";
 import type { Interface_of_user } from "../user/user.interface.js";
 import bcrypt from "bcrypt"
 
+// createUser from database 
 const createUserFromDB = async (payload: Interface_of_user) => {
     const  {name, email, password, role} = payload;
 
@@ -19,8 +20,34 @@ const createUserFromDB = async (payload: Interface_of_user) => {
     delete result.rows[0].password
 
     return result
+};
+
+// Login User from database 
+const loginUserFromDB = async (payload: {
+    email: string; 
+    password: string;
+}) => {
+    const { email, password } = payload;
+
+    // 1. Check if the user exists
+    const userData = await pool.query(`
+        SELECT * FROM users WHERE email=$1
+    `, [email])
+
+    if(userData.rows.length === 0) {
+        throw new Error("Invalid Credentials!");
+    }
+
+    // 2. compare password
+    const user = userData.rows[0];
+    const mathchPassword = await bcrypt.compare(password, user.password);
+
+    if(!mathchPassword) {
+        throw new Error("Password Doesn't match")
+    }
 }
 
-export const userService = {
-    createUserFromDB
+export const authService = {
+    createUserFromDB, 
+    loginUserFromDB
 }
