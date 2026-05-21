@@ -39,7 +39,7 @@ const auth = (...roles: string[]) => {
       }
 
       // Attach user info to request if needed
-      req.user = user; // Optional, if you need it in subsequent middlewares/controllers
+      req.user = user; 
 
       next();
     } catch (err: any) {
