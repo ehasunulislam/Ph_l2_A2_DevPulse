@@ -1,7 +1,9 @@
 import { pool } from "../../db/index.db.js";
 import type { Interface_of_issue } from "./issue.intrface.js";
 
+// =========================
 // Create Issue
+// =========================
 const createIssueIntoDB = async(payload: Interface_of_issue, reporter_id: number) => {
     const { title, description, type } = payload;
 
@@ -18,8 +20,9 @@ const createIssueIntoDB = async(payload: Interface_of_issue, reporter_id: number
     return result.rows[0]
 };
 
-
+// =========================
 // getAll Issues functionality
+// =========================
 const getAllIssuesFromDB = async(query: any) => {
     const {
         sort = "newest",
@@ -91,8 +94,9 @@ const getAllIssuesFromDB = async(query: any) => {
     return finalIssues;
 }
 
-
+// =========================
 // get single issue functionality
+// =========================
 const getSingleIssueFromDB = async(id: number) => {
     /* find the issue */
     const issueResult = await pool.query(
@@ -131,6 +135,11 @@ const getSingleIssueFromDB = async(id: number) => {
         updated_at: issue.updated_at,
     }
 }
+
+
+// =========================
+// Update Issue Service
+// =========================
 
 
 export const issueService = {

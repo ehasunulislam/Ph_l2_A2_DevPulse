@@ -1,7 +1,9 @@
 import type { Request, Response } from "express";
 import { authService } from "./auth.service.js";
 
+// =========================
 // sign up function
+// =========================
 const createUser = async(req: Request, res: Response) => {
     try{
         const result = await authService.createUserFromDB(req.body);
@@ -21,7 +23,9 @@ const createUser = async(req: Request, res: Response) => {
     }
 }
 
+// =========================
 // login function 
+// =========================
 const loginUser = async(req: Request, res: Response) => {
     try{
         const result = await authService.loginUserFromDB(req.body);

@@ -1,7 +1,10 @@
 import type { Request, Response } from "express";
 import { userService } from "./user.service.js";
 
+
+// =========================
 // Getall User function 
+// =========================
 const getAllUsers = async (req: Request, res: Response) => {
     try{
         const result = await userService.getAllUserFromDB();

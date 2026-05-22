@@ -5,8 +5,9 @@ import bcrypt from "bcrypt"
 
 import jwt from "jsonwebtoken"
 
-
+// =========================
 // createUser from database 
+// =========================
 const createUserFromDB = async (payload: Interface_of_user) => {
     const  {name, email, password, role} = payload;
 
@@ -26,7 +27,10 @@ const createUserFromDB = async (payload: Interface_of_user) => {
     return result
 };
 
+
+// =========================
 // Login User from database 
+// =========================
 const loginUserFromDB = async (payload: {
     email: string; 
     password: string;

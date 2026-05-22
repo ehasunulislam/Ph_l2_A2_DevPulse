@@ -2,7 +2,9 @@ import type { Request, Response } from "express";
 import { issueService } from "./issue.service.js";
 import { pool } from "../../db/index.db.js";
 
+// =========================
 // create Issue functionality
+// =========================
 const createIssue = async(req: Request, res: Response) => {
     try{
         const reporter_id = req.user!.id;
@@ -27,7 +29,10 @@ const createIssue = async(req: Request, res: Response) => {
     }
 };
 
+
+// =========================
 // getAll Issue 
+// =========================
 const getAllIssue = async(  req: Request, res: Response) => {
     try{
         const result = await issueService.getAllIssuesFromDB(req.query);
@@ -47,8 +52,9 @@ const getAllIssue = async(  req: Request, res: Response) => {
 }
 
 
-
+// =========================
 // getAll issue by single 
+// =========================
 const getSingleIssue = async (req: Request, res: Response) => {
     try{
         const { id } = req.params;
