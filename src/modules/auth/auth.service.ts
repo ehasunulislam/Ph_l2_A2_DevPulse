@@ -24,7 +24,7 @@ const createUserFromDB = async (payload: Interface_of_user) => {
 
     delete result.rows[0].password
 
-    return result
+    return result;
 };
 
 
