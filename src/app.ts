@@ -15,14 +15,13 @@ app.get("/", (req: Request, res: Response) => {
 
 // all routes
 app.use("/api/auth", authRoute);
-app.use("/api/auth", authRoute);
 
 
-app.use("/api/users", userRoute)
+app.use("/api/users", userRoute);
 
 
-app.use("/api/issues", issueRouter)
-app.use("/api/issues", issueRouter)
+app.use("/api/issues", issueRouter);
+
 
 
 export default app
