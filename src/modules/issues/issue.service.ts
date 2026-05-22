@@ -19,6 +19,80 @@ const createIssueIntoDB = async(payload: Interface_of_issue, reporter_id: number
 };
 
 
+// getAll Issues functionality
+const getAllIssuesFromDB = async(query: any) => {
+    const {
+        sort = "newest",
+        type,
+        status
+    } = query
+
+    let sql = `SELECT * FROM issues`;
+    const conditions: string[] = [];
+    const values: any[] = [];
+
+    // filtering
+    if(type) {
+        values.push(type)
+        conditions.push(`type=$${values.length}`)
+    }
+
+    if(status) {
+        values.push(status)
+        conditions.push(`status=$${values.length}`)
+    }
+
+    // add WHERE
+    if(conditions.length > 0) {
+        sql += ` WHERE ` + conditions.join(" AND ")
+    }
+
+    // sorting
+    if(sort === "oldest") {
+        sql += ` ORDER BY created_at ASC `
+    } else {
+        sql += ` ORDER BY created_at DESC `
+    }
+
+    // fetch issues
+    const issuesResult = await pool.query(
+        sql,
+        values
+    )
+
+    const issues = issuesResult.rows;
+
+    // final 
+    const finalIssues = [];
+
+    for(const issue of issues) {
+        const reporterResult = await pool.query(
+            `
+                SELECT id, name, role
+                FROM users
+                WHERE id=$1
+            `, [issue.reporter_id]
+        );
+
+        finalIssues.push({
+            id: issue.id,
+            title: issue.title,
+            description: issue.description,
+            type: issue.type,
+            status: issue.status,
+
+            reporter: reporterResult.rows[0],
+
+            created_at: issue.created_at,
+            updated_at: issue.updated_at,
+        });
+    }
+
+    return finalIssues;
+ }
+
+
 export const issueService = {
-    createIssueIntoDB
+    createIssueIntoDB,
+    getAllIssuesFromDB
 }
