@@ -202,6 +202,36 @@ const updateIssueIntoDB = async(issueId: number, payload: Interface_of_issue, us
     );
 
     return result.rows[0];
+};
+
+
+
+// =========================
+// Delete Issue Service
+// =========================
+const deleteIssueFromDB = async(issueId: number) => {
+    /* issue check */
+    const issueResult = await pool.query(
+        `
+            SELECT * FROM issues
+            WHERE id=$1
+        `, 
+        [issueId]
+    );
+
+    if(issueResult.rows.length === 0) {
+        throw new Error("Issue not found");
+    }
+
+    const result = await pool.query(
+        `
+        DELETE FROM issues
+        WHERE id=$1
+        `,
+        [issueId]
+    );
+
+    return result
 }
 
 
@@ -209,5 +239,6 @@ export const issueService = {
     createIssueIntoDB,
     getAllIssuesFromDB,
     getSingleIssueFromDB,
-    updateIssueIntoDB
+    updateIssueIntoDB,
+    deleteIssueFromDB
 }
