@@ -296,4 +296,4 @@ Supported Roles:
 
 # 👨‍💻 Author
 
-Developed by **Niloi Shek** 🚀
+Developed by **Ehasun Ul Islam** 🚀
